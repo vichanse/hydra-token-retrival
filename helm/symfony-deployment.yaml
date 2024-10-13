@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hydra-token-retrieval
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hydra-token-retrieval
+  template:
+    metadata:
+      labels:
+        app: hydra-token-retrieval
+    spec:
+      containers:
+        - name: hydra-token-retrieval
+          image: hydra-token-retrieval:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          env:
+            - name: MERCURE_PUBLISHER_JWT_KEY
+              value: "sTlUdYGJmYw7mxdhp2O+Vg8rbGYBr3oEB2jx2YLBclU=y"
+            - name: MERCURE_SUBSCRIBER_JWT_KEY
+              value: "sTlUdYGJmYw7mxdhp2O+Vg8rbGYBr3oEB2jx2YLBclU="
+            - name: OAUTH2_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: example-client-secret
+                  key: CLIENT_ID
+            - name: OAUTH2_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: example-client-secret
+                  key: CLIENT_SECRET

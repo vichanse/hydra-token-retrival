@@ -1,0 +1,43 @@
+image:
+  repository: oryd/hydra
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Hydra configuration (placed under hydra.config)
+hydra:
+  dev: true
+  config:
+    dsn: memory  # Use 'memory' for testing or provide a proper DSN for PostgreSQL, etc.
+    urls:
+      self:
+        issuer: http://hydra.localhost:4444/  # Issuer URL
+        public: http://hydra.localhost:4444/    # Public Hydra URL
+        admin: http://hydra.localhost:4445/     # Admin Hydra URL
+      login: http://localhost:3000/login      # Login page URL
+      consent: http://localhost:3000/consent  # Consent page URL
+      
+    secrets:
+      system:
+        - rzQUW0TEDmd6gS7Yafr48y02uRrFXtyUCpbLyO6IaQ  # Ensure this is a securely generated value
+    serve:
+      public:
+        port: 4444
+      admin:
+        port: 4445
+    dev: true  # Running in development mode
+    strategies:
+      access_token: jwt
+
+# Service configuration
+service:
+  type: ClusterIP
+
+# Ingress configuration
+ingress:
+  enabled: true
+  hosts:
+    - hydra.localhost
+  tls:
+    - hosts:
+        - hydra.localhost
+      secretName: hydra-tls

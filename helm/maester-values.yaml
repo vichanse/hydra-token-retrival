@@ -1,0 +1,11 @@
+image:
+  repository: oryd/hydra-maester
+  tag: latest
+
+hydraAdmin:
+  endpoint: http://hydra.localhost:4445
+
+ingress:
+  enabled: true
+  hosts:
+    - hydra-maester.localhost

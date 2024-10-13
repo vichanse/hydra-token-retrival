@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hydra
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hydra.localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hydra-public
+                port:
+                  number: 4444
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: hydra-admin
+                port:
+                  number: 4445
